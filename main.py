@@ -7,6 +7,7 @@ import os
 def download_all_pages(link:str
                   ,max_page: int
                   ,folder: str)->set:
+    
     cant_read = set()
     for i in range(1,max_page+1):
         b = download_page(link
@@ -21,6 +22,7 @@ def download_all_pages(link:str
 def data_to_df(path_format: str
               ,max_page:int
               ,cant_read:set = set()):
+    
     df = pd.DataFrame(columns= ['country','review','title','date','stars'])
     for i in range(1,max_page+1):
         if not(i in cant_read): #if we read file correctly

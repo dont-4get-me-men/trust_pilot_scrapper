@@ -5,7 +5,7 @@ from consts import *
 def download_page(link: str
                  ,page_number:int
                  ,folder: str
-                 ,headers: dict)-> None:
+                 ,headers: dict)-> int:
     '''
     Download page from link and save to folder as html file
     '''
