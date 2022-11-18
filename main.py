@@ -3,6 +3,9 @@ from consts import *
 import pandas as pd
 import time
 import os
+import warnings
+
+warnings.filterwarnings('ignore')
 
 def download_all_pages(link:str
                   ,max_page: int
@@ -10,7 +13,7 @@ def download_all_pages(link:str
     
     cant_read = set()
     for i in range(1,max_page+1):
-        b = download_page(link
+        b = download_page(link.format(i)
                      ,page_number=i
                      ,folder=folder
                      ,headers=header)
@@ -27,18 +30,20 @@ def data_to_df(path_format: str
     for i in range(1,max_page+1):
         if not(i in cant_read): #if we read file correctly
             dicti = get_data_from_page(path_format.format(i))
+            #print(dicti[0:2])
             df = pd.concat([df,pd.DataFrame(dicti)],axis = 0,ignore_index=True)
     return df
 
 if __name__ == "__main__":
     max_page = 5
-    # link = 'https://www.trustpilot.com/review/trustpilot.com?page={}'
-    # folder = 'trust_pilot_pages'
-    # if not(os.path.exists(folder)):
-    #     os.mkdir(folder)
-    # cant_read = download_all_pages(link,max_page,folder)
-    path_format = 'trust_pilot_pages/page{}.html'
-    df = data_to_df(path_format,max_page)
-    df.to_csv('trust_pilot_reviews.csv')
-    print(df.shape)
-    print(df.tail())
+    site_link = 'facebook.com'
+    link = "https://www.trustpilot.com/review/{}".format(site_link)+"?page={}"
+    folder = f'trust_pilot_pages_{site_link}'
+    if not(os.path.exists(folder)):
+        os.mkdir(folder)
+    cant_read = download_all_pages(link,max_page,folder)
+    path_format =  folder + '/page{}.html'
+
+    df = data_to_df(path_format,max_page,cant_read)
+    #print(df.head())
+    df.to_csv(f'trust_pilot_{site_link}.csv')

@@ -1,3 +1,7 @@
 env/
 .ipynb_checkpoints
 __pycache__/
+trust_pilot_pages/
+trust_pilot_reviews.csv
+test.py
+.DS_Store

@@ -10,7 +10,8 @@ def download_page(link: str
     Download page from link and save to folder as html file
     '''
     path = folder + '/page{}.html'.format(page_number)
-    res = requests.get(link.format(page_number),headers=headers)
+    link_with_page = link.format(page_number)
+    res = requests.get(link_with_page,headers=headers)
     soup = BeautifulSoup(res.content)
     with open(path,'w') as f:
         f.write(str(soup))
